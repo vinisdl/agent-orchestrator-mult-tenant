@@ -1,0 +1,11 @@
+chat:
+  quick_prompts:
+    assist-agent:
+      - "What can you help me with?"
+      - "Summarize this in one sentence."
+    business-agent:
+      - "Analise esta User Story e sugira critérios de aceitação."
+      - "Identifique riscos e impacto de negócio."
+    quality-agent:
+      - "Gere cenários de teste para esta história."
+      - "Revise os cenários de teste existentes."

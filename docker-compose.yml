@@ -1,0 +1,69 @@
+services:
+  agentos-db:
+    image: pgvector/pgvector:pg16
+    container_name: agentos-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-ai}
+      POSTGRES_PASSWORD: ${DB_PASS:-ai}
+      POSTGRES_DB: ${DB_DATABASE:-ai}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - agno
+
+  agent-os:
+    build:
+      context: ./agent-os
+      dockerfile: Dockerfile
+    image: agno-agent-os:latest
+    container_name: agent-os
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - RUNTIME_ENV=${RUNTIME_ENV:-prd}
+      - PYTHONPATH=/app
+      - DB_HOST=agentos-db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER:-ai}
+      - DB_PASS=${DB_PASS:-ai}
+      - DB_DATABASE=${DB_DATABASE:-ai}
+      - WAIT_FOR_DB=true
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_DEPLOYMENT=${AZURE_OPENAI_DEPLOYMENT}
+      - AZURE_OPENAI_API_VERSION=${AZURE_OPENAI_API_VERSION}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - agentos-db
+    networks:
+      - agno
+
+  agent-ui:
+    build:
+      context: ./agent-ui
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_AGENTOS_URL: ${NEXT_PUBLIC_AGENTOS_URL:-http://localhost:8000}
+    image: agno-agent-ui:latest
+    container_name: agent-ui
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_AGENTOS_URL=${NEXT_PUBLIC_AGENTOS_URL:-http://localhost:8000}
+    depends_on:
+      - agent-os
+    networks:
+      - agno
+
+networks:
+  agno:
+    driver: bridge
+
+volumes:
+  pgdata:

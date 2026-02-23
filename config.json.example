@@ -1,0 +1,44 @@
+{
+  "organizations": {
+    "org1": {
+      "azure_openai": {
+        "api_key": "sua-chave-azure-openai-org1",
+        "endpoint": "https://org1-openai.openai.azure.com/",
+        "api_version": "2024-08-01-preview",
+        "deployment": "gpt-4o",
+        "embedding_deployment": "text-embedding-3-small"
+      },
+      "azure_search": {
+        "api_key": "sua-chave-azure-search-org1",
+        "endpoint": "https://org1-search.search.windows.net",
+        "index_name": "org1-index",
+        "embedding_api_version": "2023-05-15"
+      },
+      "important_doc_ids": {
+        "general": ["DoR", "DoD"],
+        "business": ["Template US"],
+        "quality": ["Template Casos de Teste"]
+      }
+    },
+    "org2": {
+      "azure_openai": {
+        "api_key": "sua-chave-azure-openai-org2",
+        "endpoint": "https://org2-openai.openai.azure.com/",
+        "api_version": "2024-08-01-preview",
+        "deployment": "gpt-4o",
+        "embedding_deployment": "text-embedding-3-small"
+      },
+      "azure_search": {
+        "api_key": "sua-chave-azure-search-org2",
+        "endpoint": "https://org2-search.search.windows.net",
+        "index_name": "org2-index",
+        "embedding_api_version": "2023-05-15"
+      },
+      "important_doc_ids": {
+        "general": [],
+        "business": ["Template User Story"],
+        "quality": ["Template BDD"]
+      }
+    }
+  }
+}

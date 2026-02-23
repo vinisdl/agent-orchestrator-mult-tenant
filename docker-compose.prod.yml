@@ -1,0 +1,9 @@
+# Override for production: no volume mounts, optimized run
+services:
+  agent-os:
+    environment:
+      - RUNTIME_ENV=prd
+
+  agent-ui:
+    environment:
+      - NODE_ENV=production

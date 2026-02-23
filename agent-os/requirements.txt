@@ -1,0 +1,10 @@
+# AgentOS POC - sync with pyproject.toml
+agno[os]
+fastapi[standard]
+uvicorn
+pgvector
+psycopg[binary]
+sqlalchemy
+anthropic
+openai
+python-dotenv

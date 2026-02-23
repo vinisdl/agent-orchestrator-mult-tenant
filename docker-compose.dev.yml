@@ -1,0 +1,23 @@
+# Override for development: hot-reload and dev defaults
+services:
+  agent-os:
+    build:
+      context: ./agent-os
+      dockerfile: Dockerfile
+    volumes:
+      - ./agent-os:/app
+    environment:
+      - RUNTIME_ENV=dev
+    command: ["--reload"]
+
+  agent-ui:
+    build:
+      context: ./agent-ui
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_AGENTOS_URL: ${NEXT_PUBLIC_AGENTOS_URL:-http://localhost:8000}
+    # Optional: mount source for live edits (requires node in container and pnpm dev)
+    # volumes:
+    #   - ./agent-ui:/app
+    #   - /app/node_modules
+    # command: ["pnpm", "dev"]

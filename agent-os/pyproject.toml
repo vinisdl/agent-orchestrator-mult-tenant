@@ -1,0 +1,25 @@
+[project]
+name = "agno-agent-os"
+version = "1.0.0"
+requires-python = ">=3.12,<4"
+readme = "README.md"
+description = "AgentOS POC with PostgreSQL and agent-ui"
+
+dependencies = [
+    "agno[os]",
+    "fastapi[standard]",
+    "uvicorn",
+    "pgvector",
+    "psycopg[binary]",
+    "sqlalchemy",
+    "anthropic",
+    "openai",
+    "python-dotenv",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["agents*", "db*", "app*", "knowledge*", "config*", "middleware*"]
