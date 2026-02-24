@@ -8,6 +8,7 @@ Base de conhecimento: Agno Knowledge (PgVector).
 """
 
 from agno.agent import Agent
+from agno.tools.websearch import WebSearchTools
 
 from agents.model_factory import get_model
 from agents.profile import create_profile
@@ -25,6 +26,7 @@ content_creator_agent = Agent(
     instructions=_profile.get_instructions(),
     knowledge=get_knowledge(),
     search_knowledge=True,
+    tools=[WebSearchTools()],
     add_datetime_to_context=True,
     add_history_to_context=True,
     num_history_runs=5,

@@ -8,3 +8,4 @@ sqlalchemy
 anthropic
 openai
 python-dotenv
+ddgs

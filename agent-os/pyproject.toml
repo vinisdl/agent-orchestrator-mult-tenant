@@ -15,6 +15,7 @@ dependencies = [
     "anthropic",
     "openai",
     "python-dotenv",
+    "ddgs",
 ]
 
 [build-system]

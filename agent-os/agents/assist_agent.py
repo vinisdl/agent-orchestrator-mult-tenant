@@ -6,6 +6,7 @@ Uses Azure OpenAI when configured, otherwise Anthropic Claude or OpenAI.
 """
 
 from agno.agent import Agent
+from agno.tools.websearch import WebSearchTools
 
 from agents.model_factory import get_model
 from db import get_postgres_db
@@ -15,7 +16,8 @@ assist_agent = Agent(
     name="Agno Assist",
     model=get_model(),
     db=get_postgres_db(),
-    instructions="You are a helpful assistant. Be clear and concise.",
+    instructions="You are a helpful assistant. Be clear and concise. When helpful, use web search for current information.",
+    tools=[WebSearchTools()],
     add_datetime_to_context=True,
     add_history_to_context=True,
     num_history_runs=5,

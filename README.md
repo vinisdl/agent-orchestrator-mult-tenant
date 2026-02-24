@@ -11,7 +11,8 @@ Esta POC oferece um ambiente completo para rodar agentes de IA (Agno AgentOS) co
 ## Funcionalidades
 
 - **AgentOS (FastAPI)** – API de agentes com Agno; suporte a múltiplos agentes e Knowledge
-- **Content Creator** – Agente com skills de criação de conteúdo (SEO, voz de marca), humanização de texto e workflow de documentação (post-writer)
+- **Content Creator** – Agente com skills de criação de conteúdo (SEO, voz de marca), humanização de texto e workflow de documentação (post-writer); usa web search e notícias para pesquisa quando necessário
+- **Assist Agent** – Assistente padrão com memória; usa web search para informações atuais quando útil
 - **Knowledge (RAG)** – Agno Knowledge com PgVector no mesmo PostgreSQL; embeddings via Azure OpenAI ou OpenAI
 - **agent-ui (Next.js)** – Interface de chat responsiva, clone do [agent-ui](https://github.com/agno-agi/agent-ui)
 - **Multi-tenant (opcional)** – Configuração por tenant via header `X-Tenant` e `TENANTS_CONFIG_JSON` ou `config/organizations.json`
