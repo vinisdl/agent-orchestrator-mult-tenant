@@ -53,7 +53,7 @@ Fluxo RAG no smart-squad:
 
 Na POC, hoje:
 
-- Existem agentes **explícitos** (assist_agent, content_creator_agent), cada um com suas instruções fixas.
+- Existem agentes **explícitos** (assist_agent, content_creator_agent, humanizer_agent), cada um com suas instruções fixas.
 - Não há **Knowledge/RAG** configurado; as instruções só **mencionam** “consulte a Base de Conhecimento”.
 - Não há conceito de **important_doc_ids** nem **exclude_doc_id**.
 
@@ -78,9 +78,14 @@ Este documento serve como referência para manter a POC alinhada à arquitetura 
 
 ## Estrutura na POC AgentOS (após refatoração)
 
-- **agents/profile_type.py**: `ProfileType` (CONTENT_CREATOR), alinhado ao ProfileTypeEnum.
-- **agents/profile.py**: `ProfileInterface` (get_profile_type, get_instructions), `ContentCreatorProfile`, `create_profile(profile_type)`.
-- **agents/content_creator_agent.py**: obtém o profile via `create_profile(ProfileType.CONTENT_CREATOR)` e usa `profile.get_instructions()` no Agent; nome e id do agente: Content Creator, content-creator-agent. Skills incorporadas nas instruções: content-creator (SEO, brand voice), humanizer (texto natural), post-writer (docs, co-autoria).
+Estrutura de pastas por agente e código compartilhado:
+
+- **agents/core/profile_type.py**: `ProfileType` (CONTENT_CREATOR, HUMANIZER), alinhado ao ProfileTypeEnum.
+- **agents/core/profile.py**: `ProfileInterface` (get_profile_type, get_instructions), `ContentCreatorProfile`, `HumanizerProfile`, `create_profile(profile_type)`.
+- **agents/core/model_factory.py**: `get_model()` (Azure OpenAI, Anthropic, OpenAI).
+- **agents/assist/agent.py**: agente Assist (pesquisa web); id: assist-agent.
+- **agents/content_creator/agent.py**: obtém o profile via `create_profile(ProfileType.CONTENT_CREATOR)` e usa `profile.get_instructions()` no Agent; nome e id: Content Creator, content-creator-agent. Skills nas instruções: content-creator (SEO, brand voice), humanizer (texto natural), post-writer (docs, co-autoria).
+- **agents/humanizer/agent.py**: obtém o profile via `create_profile(ProfileType.HUMANIZER)`; nome e id: Humanizer, humanizer-agent. Foco em remover padrões de texto gerado por IA.
 - **doc/SMART_SQUAD_AGENTS_AND_RAG.md**: este arquivo (visão genérica + RAG e alinhamento POC).
 
 ### Knowledge (Agno) com PgVector
@@ -93,4 +98,4 @@ Este documento serve como referência para manter a POC alinhada à arquitetura 
 - **config/organization_config.py**: `OrganizationSettings` (azure_openai, azure_search, important_doc_ids), `OrganizationConfigManager` (TENANTS_CONFIG_JSON ou organizations.json).
 - **config/organization_context.py**: ContextVar; `set_current_organization`, `get_current_organization`, `clear_current_organization`.
 - **middleware/organization_middleware.py**: header **X-Tenant** (ou X-Organization); sem tenant: modo simples (env).
-- **Modelo**: `model_factory` usa variáveis de ambiente (um modelo por instância). Knowledge é compartilhada (PgVector único).
+- **Modelo**: `agents/core/model_factory.py` (`get_model`) usa variáveis de ambiente (um modelo por instância). Knowledge é compartilhada (PgVector único).

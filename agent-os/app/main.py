@@ -13,9 +13,9 @@ from pathlib import Path
 
 from agno.os import AgentOS
 
-from agents.assist_agent import assist_agent
-from agents.content_creator_agent import content_creator_agent
+from agents import assist_agent, content_creator_agent, humanizer_agent
 from db import get_postgres_db
+from teams import content_creator_humanizer_team
 from middleware.organization_middleware import OrganizationMiddleware
 
 config_path = Path(__file__).parent / "config.yaml"
@@ -24,7 +24,8 @@ agent_os = AgentOS(
     tracing=True,
     scheduler=True,
     db=get_postgres_db(),
-    agents=[assist_agent, content_creator_agent],
+    agents=[assist_agent, content_creator_agent, humanizer_agent],
+    teams=[content_creator_humanizer_team],
     config=str(config_path) if config_path.exists() else None,
 )
 

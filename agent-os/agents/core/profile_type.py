@@ -7,3 +7,4 @@ from enum import Enum
 
 class ProfileType(str, Enum):
     CONTENT_CREATOR = "content_creator"
+    HUMANIZER = "humanizer"

@@ -10,9 +10,9 @@ Base de conhecimento: Agno Knowledge (PgVector).
 from agno.agent import Agent
 from agno.tools.websearch import WebSearchTools
 
-from agents.model_factory import get_model
-from agents.profile import create_profile
-from agents.profile_type import ProfileType
+from agents.core.model_factory import get_model
+from agents.core.profile import create_profile
+from agents.core.profile_type import ProfileType
 from db import get_postgres_db
 from knowledge import get_knowledge
 
