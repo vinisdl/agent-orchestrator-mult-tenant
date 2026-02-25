@@ -11,13 +11,18 @@ from agno.team import Team
 from agents.content_creator import content_creator_agent
 from agents.core.model_factory import get_model
 from agents.humanizer import humanizer_agent
+from agno.tools.websearch import WebSearchTools
+from tools.github import GitHubTools
 from db import get_postgres_db
+from knowledge import get_knowledge
 
 content_creator_humanizer_team = Team(
     id="content-creator-humanizer-team",
     name="Content Creator + Humanizer",
     members=[content_creator_agent, humanizer_agent],
     model=get_model(),
+    tools=[WebSearchTools(), GitHubTools()],
+    knowledge=get_knowledge(),
     db=get_postgres_db(),
     instructions="""
 Você coordena o time **Content Creator + Humanizer**.

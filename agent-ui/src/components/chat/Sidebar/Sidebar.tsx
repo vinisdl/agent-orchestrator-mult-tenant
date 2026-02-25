@@ -10,6 +10,7 @@ import Icon from '@/components/ui/icon'
 import { getProviderIcon } from '@/lib/modelProvider'
 import Sessions from './Sessions'
 import AuthToken from './AuthToken'
+import { KnowledgeUploadModal } from './KnowledgeUpload'
 import { isValidUrl } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useQueryState } from 'nuqs'
@@ -209,6 +210,7 @@ const Sidebar = ({
   envToken?: string
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [knowledgeModalOpen, setKnowledgeModalOpen] = useState(false)
   const { clearChat, focusChatInput, initialize } = useChatActions()
   const {
     messages,
@@ -280,6 +282,15 @@ const Sidebar = ({
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, ease: 'easeInOut' }}
                 >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-9 w-full justify-start gap-2 rounded-xl border-primary/15 text-xs font-medium uppercase text-primary"
+                    onClick={() => setKnowledgeModalOpen(true)}
+                  >
+                    <Icon type="references" size="xs" />
+                    Base de Conhecimento
+                  </Button>
                   <div className="text-xs font-medium uppercase text-primary">
                     Mode
                   </div>
@@ -308,6 +319,10 @@ const Sidebar = ({
           </>
         )}
       </motion.div>
+      <KnowledgeUploadModal
+        open={knowledgeModalOpen}
+        onOpenChange={setKnowledgeModalOpen}
+      />
     </motion.aside>
   )
 }

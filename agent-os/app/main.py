@@ -17,6 +17,7 @@ from agents import assist_agent, content_creator_agent, humanizer_agent
 from db import get_postgres_db
 from teams import content_creator_humanizer_team
 from middleware.organization_middleware import OrganizationMiddleware
+from app.routes.knowledge import router as knowledge_router
 
 config_path = Path(__file__).parent / "config.yaml"
 agent_os = AgentOS(
@@ -31,6 +32,7 @@ agent_os = AgentOS(
 
 app = agent_os.get_app()
 app.add_middleware(OrganizationMiddleware)
+app.include_router(knowledge_router, prefix="/knowledge", tags=["knowledge"])
 
 if __name__ == "__main__":
     agent_os.serve(

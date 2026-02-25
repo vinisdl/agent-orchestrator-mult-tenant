@@ -1,0 +1,1 @@
+export { KnowledgeUploadModal } from './KnowledgeUploadModal'

@@ -166,3 +166,41 @@ export const deleteTeamSessionAPI = async (
   }
   return response
 }
+
+export interface KnowledgeUploadDocument {
+  filename: string
+  status: 'ok' | 'error'
+  message?: string
+}
+
+export interface KnowledgeUploadResponse {
+  ingested: number
+  documents: KnowledgeUploadDocument[]
+}
+
+export const uploadKnowledgeAPI = async (
+  endpoint: string,
+  files: File[],
+  authToken?: string
+): Promise<KnowledgeUploadResponse> => {
+  const formData = new FormData()
+  files.forEach((file) => formData.append('files', file))
+
+  const headers: HeadersInit = {}
+  if (authToken) {
+    headers['Authorization'] = `Bearer ${authToken}`
+  }
+
+  const response = await fetch(APIRoutes.KnowledgeUpload(endpoint), {
+    method: 'POST',
+    headers,
+    body: formData
+  })
+
+  if (!response.ok) {
+    const text = await response.text()
+    throw new Error(text || `Upload failed: ${response.statusText}`)
+  }
+
+  return response.json()
+}

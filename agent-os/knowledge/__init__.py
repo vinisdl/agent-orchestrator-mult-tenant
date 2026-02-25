@@ -19,10 +19,14 @@ _knowledge: Knowledge | None = None
 
 
 def _get_embedder():
-    """Embedder: Azure OpenAI se configurado, senão OpenAI."""
+    """Embedder: Azure OpenAI se configurado, senão OpenAI.
+    Azure: o valor de AZURE_OPENAI_EMBEDDING_DEPLOYMENT deve ser o nome exato do
+    deployment no recurso (Portal Azure > OpenAI > Deployments). Erro 404 DeploymentNotFound
+    = nome diferente ou deployment ainda não criado.
+    """
     if getenv("AZURE_OPENAI_API_KEY") and getenv("AZURE_OPENAI_ENDPOINT"):
         from agno.knowledge.embedder.azure_openai import AzureOpenAIEmbedder
-        deployment = getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "text-embedding-3-small")
+        deployment = getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "text-embedding")
         return AzureOpenAIEmbedder(
             id=deployment,
             api_key=getenv("AZURE_OPENAI_API_KEY"),
@@ -30,7 +34,7 @@ def _get_embedder():
             api_version=getenv("AZURE_OPENAI_API_VERSION", "2024-08-01-preview"),
         )
     from agno.knowledge.embedder.openai import OpenAIEmbedder
-    return OpenAIEmbedder(id="text-embedding-3-small")
+    return OpenAIEmbedder(id="text-embedding")
 
 
 def get_knowledge() -> Knowledge:
